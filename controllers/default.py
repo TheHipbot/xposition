@@ -19,6 +19,9 @@ def index():
     response.title = "XPosition"
     return dict()
 
+def starmap():
+    return dict(map=db().select(db.point.ALL))
+
 
 def user():
     """

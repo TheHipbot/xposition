@@ -14,6 +14,11 @@ from gluon.contrib.appconfig import AppConfig
 ## once in production, remove reload=True to gain full speed
 myconf = AppConfig(reload=True)
 
+import random
+import string
+
+from gluon import current
+
 
 if not request.env.web2py_runtime_gae:
     ## if NOT running on Google App Engine use SQLite or other DB
@@ -21,6 +26,7 @@ if not request.env.web2py_runtime_gae:
 else:
     ## connect to Google BigTable (optional 'google:datastore://namespace')
     db = DAL('google:datastore+ndb')
+    current.db = db
     ## store sessions and tickets there
     session.connect(request, response, db=db)
     ## or store session in Memcache, Redis, etc.
@@ -90,3 +96,31 @@ auth.settings.reset_password_requires_verification = True
 
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
+
+NE = IS_NOT_EMPTY()
+
+NUM_POINTS = 1000
+
+CONSTELLATIONS = ['Cygnus', 'Cepheus', 'Reticulum', 'Vulpecula', 'Puppis', 'Pyxis', 'Lynx', 'Andromeda', 'Fornax', 'Cetus']
+
+# Table for points on sphere
+
+db.define_table(
+    'point',
+    Field('name', requires=NE),
+    Field('x', 'double'),
+    Field('y', 'double'),
+    Field('z', 'double'),
+    format='%(name)s')
+
+# Generate points for xposition
+def generateName():
+    return random.choice(CONSTELLATIONS) + '-' + random.choice(string.letters[26:]).upper() + `random.randint(0,9)` + `random.randint(0,9)` + `random.randint(0,9)`
+
+db.point.truncate()
+
+for i in range(NUM_POINTS):
+    db.point.insert(name=generateName(),
+                    x=random.random()*2-1,
+                    y=random.random()*2-1,
+                    z=random.random()*2-1)
