@@ -11,7 +11,7 @@
     AMOUNTX = 10,
     AMOUNTY = 10,
 
-    camera, scene, renderer, controls;
+    camera, scene, renderer, controls, cylinder ;
 
   init();
   animate();
@@ -69,6 +69,11 @@
           scene.add(particle);
         }
       });
+
+    cylinder = new THREE.Mesh(new THREE.CylinderGeometry(100, 0, 460, 50, 50, false),  new THREE.MeshBasicMaterial( { color: 0xccaa00, transparent: true, blending: THREE.AdditiveBlending, wireframe: false } ));
+    scene.add(cylinder);
+
+    cylinder.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 460/2, 0 ) );
 
     window.addEventListener('resize', onWindowResize, false);
 
