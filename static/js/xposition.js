@@ -74,7 +74,7 @@
     scene.add(cylinder);
 
     cylinder.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 460/2, 0 ) );
-
+    cylinder.applyMatrix( new THREE.Matrix4().makeRotationFromEuler( new THREE.Euler( Math.PI / 2, Math.PI, 0 ) ) );
     window.addEventListener('resize', onWindowResize, false);
 
   }

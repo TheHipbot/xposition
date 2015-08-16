@@ -115,6 +115,11 @@ db.define_table(
 
 # Generate points for xposition
 def generateName():
+    name = random.choice(CONSTELLATIONS) + '-' + random.choice(string.letters[26:]).upper() + `random.randint(0,9)` + `random.randint(0,9)` + `random.randint(0,9)`
+
+    while (db(db.point.name==name).count() > 0):
+        name = random.choice(CONSTELLATIONS) + '-' + random.choice(string.letters[26:]).upper() + `random.randint(0,9)` + `random.randint(0,9)` + `random.randint(0,9)`
+
     return random.choice(CONSTELLATIONS) + '-' + random.choice(string.letters[26:]).upper() + `random.randint(0,9)` + `random.randint(0,9)` + `random.randint(0,9)`
 
 db.point.truncate()
